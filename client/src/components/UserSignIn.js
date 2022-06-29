@@ -7,7 +7,10 @@ export default class UserSignIn extends Component {
 
     render() {
         return (
-            <h1>signinCourses</h1>
+            <React.Fragment>
+                <h1>signinCourses</h1>
+                <button onClick={this.props.context.actions.signIn}>Sign In</button>
+            </React.Fragment> 
         )
     }
 }

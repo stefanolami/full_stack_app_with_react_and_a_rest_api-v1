@@ -5,7 +5,6 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import axios from 'axios';
 import '../App.css';
 
 import CourseDetail from './CourseDetail';
@@ -16,7 +15,12 @@ import UpdateCourse from './UpdateCourse';
 import UserSignIn from './UserSignIn';
 import UserSignUp from './UserSignUp';
 import UserSignOut from './UserSignOut';
+import PrivateRoute from '../PrivateRoute';
 
+import withContext from '../Context';
+
+const UserSignInWithContext = withContext(UserSignIn);
+const CourseDetailWithContext = withContext(CourseDetail);
 
 function App() {
   
@@ -26,9 +30,10 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Courses />} />
-        <Route path="/courses/create" element={<CreateCourse />} />
-        <Route path="/courses:id" element={<CourseDetail />} />
-        <Route path="/signin" element={<UserSignIn />} />
+        <PrivateRoute path="/courses/create" element={<CreateCourse />} />
+        <PrivateRoute path="/courses/:id/update" element={<UpdateCourse />} />
+        <Route path="/courses/:id" element={<CourseDetailWithContext />} />
+        <Route path="/signin" element={<UserSignInWithContext />} />
         <Route path="/signup" element={<UserSignUp />} />
         <Route path="/signout" element={<UserSignOut />} />
       </Routes>

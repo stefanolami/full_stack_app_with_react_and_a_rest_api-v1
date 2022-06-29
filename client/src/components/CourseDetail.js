@@ -6,8 +6,13 @@ export default class CourseDetail extends Component {
     };
 
     render() {
+        const { authenticatedUser } = this.props.context;
         return (
-            <h1>CoursesDetail</h1>
+            <h1>
+                {
+                    authenticatedUser ? 'yes' : 'no'
+                }
+            </h1>
         )
     }
 }
