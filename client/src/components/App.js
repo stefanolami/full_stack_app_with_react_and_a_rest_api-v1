@@ -5,7 +5,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import '../App.css';
+
 
 import CourseDetail from './CourseDetail';
 import Courses from './Courses';
@@ -19,19 +19,23 @@ import PrivateRoute from '../PrivateRoute';
 
 import withContext from '../Context';
 
+const CoursesWithContext = withContext(Courses)
 const UserSignInWithContext = withContext(UserSignIn);
 const CourseDetailWithContext = withContext(CourseDetail);
+const HeaderWithContext = withContext(Header);
 
 function App() {
   
   return (
     <BrowserRouter>
       <div className="App">
-      <Header />
+      <HeaderWithContext />
       <Routes>
-        <Route path="/" element={<Courses />} />
-        <PrivateRoute path="/courses/create" element={<CreateCourse />} />
-        <PrivateRoute path="/courses/:id/update" element={<UpdateCourse />} />
+        <Route path="/" element={<CoursesWithContext />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/courses/create" element={<CreateCourse />} />
+          <Route path="/courses/:id/update" element={<UpdateCourse />} />
+        </Route>
         <Route path="/courses/:id" element={<CourseDetailWithContext />} />
         <Route path="/signin" element={<UserSignInWithContext />} />
         <Route path="/signup" element={<UserSignUp />} />

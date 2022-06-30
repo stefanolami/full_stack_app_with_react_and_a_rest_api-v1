@@ -52,8 +52,7 @@ router.get('/courses', asyncHandler(async (req, res) => {
 
 // GET COURSES ID 200 return specific course
 router.get('/courses/:id', asyncHandler(async (req, res) => {
-    /* const course = await Course.findByPk(req.params.id); */
-    const course = await Course.findAll({
+    const course = await Course.findOne({
       where: {
         id: req.params.id
       },

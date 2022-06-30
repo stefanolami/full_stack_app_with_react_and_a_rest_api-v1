@@ -30,18 +30,36 @@ export class Provider extends Component {
     signOut = () => {
         this.setState(() => {
             return {
-                authUser: null
+                authenticatedUser: null
             }
         })
+    }
+
+    getCourse = async (id) => {
+        const course = await this.apiMethods.getCourse(id);
+        if (course == null) {
+            console.log('Course not found')
+        }
+        return course;
+    }
+
+    getCourses = async () => {
+        const courses = await this.apiMethods.getCourses();
+        if (courses.length === 0) {
+            console.log('Course not found')
+        }
+        return courses;
     }
 
     render() {
 
         const value = {
-            authUser: this.state.authenticatedUser,
+            authenticatedUser: this.state.authenticatedUser,
             actions: {
                 signIn: this.signIn,
-                signOut: this.signOut
+                signOut: this.signOut,
+                getCourse: this.getCourse,
+                getCourses: this.getCourses
             }
         }
 

@@ -39,7 +39,7 @@ header {
     justify-content: space-between;
     align-items: center;
 }
-.header--logo a {
+a .header--logo {
     font-size: 1.25rem;
     color: #fff;
 }

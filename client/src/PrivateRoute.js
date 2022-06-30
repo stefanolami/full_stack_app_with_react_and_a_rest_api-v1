@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { Context } from './Context';
 
 /* const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -22,7 +22,7 @@ import { Context } from './Context';
     );
 }; */
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+/* const PrivateRoute = ({ component: Component, ...rest }) => {
     const context = useContext(Context);
     return (
         <Route
@@ -37,6 +37,14 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         )}
         />
     );
+}; */
+
+const PrivateRoute = ({props}) => {
+  const context = useContext(Context);
+  const location = useLocation();
+  return (
+    context.authenticatedUser ? <Outlet /> : <Navigate to={'/signin'} state={{from: location}} replace />
+  );
 };
 
 export default PrivateRoute;
