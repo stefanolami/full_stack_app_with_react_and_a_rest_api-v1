@@ -6,12 +6,15 @@ const CourseDetail = (props) => {
 
     const [course, setCourse] = useState(null)
     const { id } = useParams();
+    const { authenticatedUser } = props.context;
+    /* const course = await props.context.actions.getCourse(id); */
 
     useEffect(() => {
         props.context.actions.getCourse(id)
             .then( response => {
                 if(response) {
                     setCourse(response);
+                    console.log(response)
                 } else {
                     setCourse(null)
                 }
@@ -19,17 +22,31 @@ const CourseDetail = (props) => {
         .catch( error => console.log(error.message) )
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    
+    console.log(course)
 
     return (
         <React.Fragment>
-            <div className="actions--bar">
-                <div className="wrap">
-                    <Link className="button" to="update-course.html">Update Course</Link>
-                    <Link className="button" to="#">Delete Course</Link>
-                    <Link className="button button-secondary" to="index.html">Return to List</Link>
-                </div>
-            </div>
+            {
+                course ? (
+                    authenticatedUser ? (
+                        course.Users.id === authenticatedUser.id ? (
+                             <div className="actions--bar">
+                                <div className="wrap">
+                                    <Link className="button" to={`/courses/${id}/update`} onClick={() => props.context.actions.setUrlParams(`/courses/${id}/update`)}>Update Course</Link>
+                                    <Link className="button" to="#">Delete Course</Link>
+                                    <Link className="button button-secondary" to="/">Return to List</Link>
+                                </div>
+                            </div>
+                        ) : (
+                            <React.Fragment></React.Fragment>
+                        )
+                    ) : (
+                        <React.Fragment></React.Fragment>
+                    ) 
+                ) : (
+                    <React.Fragment></React.Fragment>
+                )  
+            }
             {
                 course ? (
                     <React.Fragment>

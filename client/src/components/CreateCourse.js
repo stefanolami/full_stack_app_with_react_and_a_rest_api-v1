@@ -11,6 +11,8 @@ const CreateCourse = (props) => {
     const [materialsNeeded, setMaterials] = useState(null);
     const [errors, setErrors] = useState([])
 
+    const {authenticatedUser} = props.context;
+
     const submit = (e) => {
         e.preventDefault();
         const course = {
@@ -18,7 +20,7 @@ const CreateCourse = (props) => {
             description,
             estimatedTime,
             materialsNeeded,
-            userId: props.context.authenticatedUser.id
+            userId: authenticatedUser.id
         }
         props.context.actions.createCourse(course)
             .then(res => {
@@ -61,7 +63,7 @@ const CreateCourse = (props) => {
                             <label htmlFor="courseTitle">Course Title</label>
                             <input id="courseTitle" name="courseTitle" type="text" onChange={(e) => setTitle(e.target.value)} />
 
-                            <p>By Joe Smith</p>
+                            <p>By {authenticatedUser.firstName} {authenticatedUser.lastName}</p>
 
                             <label htmlFor="courseDescription">Course Description</label>
                             <textarea id="courseDescription" name="courseDescription" onChange={(e) => setDesc(e.target.value)}></textarea>

@@ -67,18 +67,12 @@ export class Provider extends Component {
         return courses;
     }
 
-    /* createCourse = async (course) => {
-        const newCourse = await this.apiMethods.createCourse(course);
-        if (newCourse === true) {
-            console.log('New Course Created')
-        } else {
-            console.log('Error Creating New Course');
-        }
-        return newCourse;
-    } */
-
     createCourse = async (course) => {
         return await this.apiMethods.createCourse(course);
+    }
+
+    updateCourse = async (id, course) => {
+        return await this.apiMethods.updateCourse(id, course);
     }
 
     newUserChange = (name, value) => {
@@ -113,6 +107,7 @@ export class Provider extends Component {
                 getCourse: this.getCourse,
                 getCourses: this.getCourses,
                 createCourse: this.createCourse,
+                updateCourse: this.updateCourse,
                 newUserChange: this.newUserChange,
                 setUrlParams: this.setUrlParams
             }
