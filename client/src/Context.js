@@ -9,7 +9,15 @@ export class Provider extends Component {
         super();
         this.apiMethods = new Methods();
         this.state= {
-            authenticatedUser: null
+            authenticatedUser: null,
+            urlParams: null,
+            validationErrors: [],
+            newUser: {
+                firstName: '',
+                lastName: '',
+                emailAddress: '',
+                password: ''
+            }
         }
     }
 
@@ -25,6 +33,14 @@ export class Provider extends Component {
             console.log('Username not found')
         }
         return user;
+    }
+
+    signUp = async (user) => {
+        const newUser = await this.apiMethods.createUser(user);
+        if (newUser === true) {
+            this.signIn(user.emailAddress, user.password)
+        }
+        return newUser
     }
 
     signOut = () => {
@@ -51,15 +67,54 @@ export class Provider extends Component {
         return courses;
     }
 
+    /* createCourse = async (course) => {
+        const newCourse = await this.apiMethods.createCourse(course);
+        if (newCourse === true) {
+            console.log('New Course Created')
+        } else {
+            console.log('Error Creating New Course');
+        }
+        return newCourse;
+    } */
+
+    createCourse = async (course) => {
+        return await this.apiMethods.createCourse(course);
+    }
+
+    newUserChange = (name, value) => {
+        this.setState(() => {
+            return {
+                newUser: {
+                    [name]: value
+                }
+            }
+        })
+    }
+
+    setUrlParams = (params) => {
+        this.setState(() => {
+            return {
+                urlParams: params
+            }
+        })
+    }
+
     render() {
 
         const value = {
             authenticatedUser: this.state.authenticatedUser,
+            newUser: this.state.newUser,
+            urlParams: this.state.urlParams,
+            validationErrors: this.state.validationErrors,
             actions: {
                 signIn: this.signIn,
+                signUp: this.signUp,
                 signOut: this.signOut,
                 getCourse: this.getCourse,
-                getCourses: this.getCourses
+                getCourses: this.getCourses,
+                createCourse: this.createCourse,
+                newUserChange: this.newUserChange,
+                setUrlParams: this.setUrlParams
             }
         }
 

@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 const Header = (props) => {
 
     const authUser = props.context.authenticatedUser;
-
-    console.log(`auth is : ${authUser}`);
     
     return (
         <header>
@@ -34,9 +32,3 @@ const Header = (props) => {
 }
 
 export default Header;
-
-
-<ul className="header--signedin">
-                        <li>Welcome, Joe Smith!</li>
-                        <li><Link to="sign-out.html">Sign Out</Link></li>
-                    </ul>

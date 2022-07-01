@@ -21,8 +21,13 @@ import withContext from '../Context';
 
 const CoursesWithContext = withContext(Courses)
 const UserSignInWithContext = withContext(UserSignIn);
+const UserSignUpWithContext = withContext(UserSignUp);
+const UserSignOutWithContext = withContext(UserSignOut)
 const CourseDetailWithContext = withContext(CourseDetail);
 const HeaderWithContext = withContext(Header);
+const PrivateRouteWithContext = withContext(PrivateRoute);
+const CreateCourseWithContext = withContext(CreateCourse);
+const UpdateCourseWithContext = withContext(UpdateCourse);
 
 function App() {
   
@@ -32,14 +37,14 @@ function App() {
       <HeaderWithContext />
       <Routes>
         <Route path="/" element={<CoursesWithContext />} />
-        <Route element={<PrivateRoute />}>
-          <Route path="/courses/create" element={<CreateCourse />} />
-          <Route path="/courses/:id/update" element={<UpdateCourse />} />
+        <Route element={<PrivateRouteWithContext />}>
+          <Route path="/courses/create" element={<CreateCourseWithContext />} />
+          <Route path="/courses/:id/update" element={<UpdateCourseWithContext />} />
         </Route>
         <Route path="/courses/:id" element={<CourseDetailWithContext />} />
         <Route path="/signin" element={<UserSignInWithContext />} />
-        <Route path="/signup" element={<UserSignUp />} />
-        <Route path="/signout" element={<UserSignOut />} />
+        <Route path="/signup" element={<UserSignUpWithContext />} />
+        <Route path="/signout" element={<UserSignOutWithContext />} />
       </Routes>
       </div>
     </BrowserRouter>

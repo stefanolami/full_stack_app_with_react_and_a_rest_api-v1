@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default () => {
+const UserSignOut = (props) => {
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        props.context.actions.signOut();
+        navigate('/');
+    })
+
     return (
-        <h1>signoutCourses</h1>
+        <React.Fragment></React.Fragment>
     )
 }
+
+export default UserSignOut;

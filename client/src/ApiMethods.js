@@ -37,11 +37,11 @@ export default class Methods {
   async createUser(user) {
     const response = await this.api('/users', 'POST', user);
     if (response.status === 201) {
-      return [];
+      return true;
     }
     else if (response.status === 400) {
       return response.json().then(data => {
-        return data.errors;
+        return data.validationErrors;
       });
     }
     else {
@@ -69,6 +69,21 @@ export default class Methods {
     }
     else if (response.status === 401) {
       return null;
+    }
+    else {
+      throw new Error();
+    }
+  }
+
+  async createCourse(course) {
+    const response = await this.api('/courses', 'POST', course);
+    if (response.status === 201) {
+      return true;
+    }
+    else if (response.status === 400) {
+      return response.json().then(data => {
+        return data.validationErrors;
+      });
     }
     else {
       throw new Error();
