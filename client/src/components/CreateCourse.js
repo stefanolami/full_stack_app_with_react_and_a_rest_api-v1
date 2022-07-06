@@ -3,13 +3,13 @@ import { Link,  useNavigate} from 'react-router-dom';
 
 const CreateCourse = (props) => {
 
-    const navigate = useNavigate()
-
     const [title, setTitle] = useState();
     const [description, setDesc] = useState();
     const [estimatedTime, setEstTime] = useState(null);
     const [materialsNeeded, setMaterials] = useState(null);
-    const [errors, setErrors] = useState([])
+    const [errors, setErrors] = useState([]);
+
+    const navigate = useNavigate();
 
     const {authenticatedUser} = props.context;
 
@@ -30,7 +30,10 @@ const CreateCourse = (props) => {
                     setErrors(res);
                 }
             })
-            .catch(err => console.log(err));
+            .catch(error => {
+                console.log(error.message)
+                navigate("/error")
+            });
         
     }
     

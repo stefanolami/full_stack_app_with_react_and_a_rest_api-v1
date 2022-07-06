@@ -1,14 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Courses = (props) => {
 
     const [courses, setCourses] = useState(null);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         props.context.actions.getCourses()
             .then(response => setCourses(response))
-            .catch(error => console.log(error.message))
+            .catch(error => {
+                console.log(error.message)
+                navigate("/error")
+            })
             // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -28,7 +33,7 @@ const Courses = (props) => {
                             ) 
                         })
                     ) : (
-                        <h4 className="course--not--found">Courses Not Found</h4>
+                        <React.Fragment></React.Fragment>
                     )
                 }
                 <Link className="course--module course--add--module" to="/courses/create" onClick={() => props.context.actions.setUrlParams("/courses/create")}>

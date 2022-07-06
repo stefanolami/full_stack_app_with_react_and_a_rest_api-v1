@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Methods from './ApiMethods';
+import Cookies from 'js-cookie';
 
 export const Context = React.createContext();
 
@@ -8,9 +9,10 @@ export class Provider extends Component {
     constructor() {
         super();
         this.apiMethods = new Methods();
+        this.cookie = Cookies.get('authenticatedUser');
         this.state= {
-            authenticatedUser: null,
-            urlParams: "/",
+            authenticatedUser: this.cookie ? JSON.parse(this.cookie) : null,
+            urlParams: -1,
             validationErrors: [],
             newUser: {
                 firstName: '',
@@ -24,11 +26,13 @@ export class Provider extends Component {
     signIn = async (username, password) => {
         const user = await this.apiMethods.getUser(username, password);
         if (user !== null) {
+            user.password = password;
             this.setState(() => {
                 return {
-                    authenticatedUser: user
-                }
-            })
+                    authenticatedUser: user,
+                };
+            });
+            Cookies.set('authenticatedUser', JSON.stringify(user), {expires: 1});
         } else {
             console.log('Username not found')
         }
@@ -48,7 +52,8 @@ export class Provider extends Component {
             return {
                 authenticatedUser: null
             }
-        })
+        });
+        Cookies.remove('authenticatedUser');
     }
 
     getCourse = async (id) => {
@@ -73,6 +78,10 @@ export class Provider extends Component {
 
     updateCourse = async (id, course, username, password) => {
         return await this.apiMethods.updateCourse(id, course, username, password);
+    }
+
+    deleteCourse = async (id, username, password) => {
+        return await this.apiMethods.deleteCourse(id, username, password);
     }
 
     newUserChange = (name, value) => {
@@ -108,6 +117,7 @@ export class Provider extends Component {
                 getCourses: this.getCourses,
                 createCourse: this.createCourse,
                 updateCourse: this.updateCourse,
+                deleteCourse: this.deleteCourse,
                 newUserChange: this.newUserChange,
                 setUrlParams: this.setUrlParams
             }

@@ -5,6 +5,7 @@ const UserSignIn = (props) => {
 
     const [emailAddress, setEmailAddress] = useState();
     const [password, setPassword] = useState();
+
     const navigate = useNavigate()
 
     const submit = (e) => {
@@ -17,8 +18,12 @@ const UserSignIn = (props) => {
                     navigate(props.context.urlParams);
                 }
                 })
-            .catch(err => {
-                console.log(err);
+            .then(() => {
+                props.context.actions.setUrlParams(-1);
+            })
+            .catch(error => {
+                console.log(error.message)
+                navigate("/error")
             })
     }
    

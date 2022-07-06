@@ -2,29 +2,39 @@ import React, { useState, useEffect } from 'react';
 import { Link,  useNavigate, useParams } from 'react-router-dom';
 
 
-const UpdateCourse = (props) => {
-
-    const navigate = useNavigate()
-    const { id } = useParams();
-    
+const UpdateCourse = (props) => {    
 
     const [title, setTitle] = useState("");
     const [description, setDesc] = useState("");
     const [estimatedTime, setEstTime] = useState("");
     const [materialsNeeded, setMaterials] = useState("");
-    const [errors, setErrors] = useState([])
+    const [errors, setErrors] = useState([]);
+
+    const navigate = useNavigate()
+    const { id } = useParams();
     
     const {authenticatedUser} = props.context;
 
     useEffect(() => {
         props.context.actions.getCourse(id)
             .then(response => {
-                setTitle(response.title);
-                setDesc(response.description);
-                setEstTime(response.estimatedTime);
-                setMaterials(response.materialsNeeded);
+                if (response !== null) {
+                    if (response.Users.id === authenticatedUser.id) {
+                        setTitle(response.title);
+                        setDesc(response.description);
+                        setEstTime(response.estimatedTime);
+                        setMaterials(response.materialsNeeded);
+                    } else {
+                        navigate("/forbidden");
+                    }
+                } else {
+                    navigate("/notfound")
+                }
             })
-            .catch(error => console.log(error.message))
+            .catch(error => {
+                console.log(error.message)
+                navigate("/error")
+            });
         
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -47,14 +57,17 @@ const UpdateCourse = (props) => {
                     setErrors(res);
                 }
             })
-            .catch(err => console.log(err));
+            .catch(error => {
+                console.log(error.message)
+                navigate("/error")
+            });
         
     }
     
     return (
         <React.Fragment>
              <div className="wrap">
-                <h2>Create Course</h2>
+                <h2>Update Course</h2>
                 {
                     errors.length > 0 ? (
                         <div className="validation--errors">

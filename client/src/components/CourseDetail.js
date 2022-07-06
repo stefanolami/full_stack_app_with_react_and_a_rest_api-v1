@@ -1,28 +1,45 @@
 import React, {useState, useEffect} from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
 const CourseDetail = (props) => {
 
-    const [course, setCourse] = useState(null)
+    const [course, setCourse] = useState(null);
     const { id } = useParams();
     const { authenticatedUser } = props.context;
-    /* const course = await props.context.actions.getCourse(id); */
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         props.context.actions.getCourse(id)
             .then( response => {
-                if(response) {
+                if(response !== null) {
                     setCourse(response);
                     console.log(response)
                 } else {
-                    setCourse(null)
+                   navigate("/notfound") 
                 }
             })
-        .catch( error => console.log(error.message) )
+            .catch(error => {
+                console.log(error.message)
+                navigate("/error")
+            })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     console.log(course)
+
+    const deleteCourse = () => {
+        props.context.actions.deleteCourse(id, authenticatedUser.emailAddress, authenticatedUser.password)
+            .then(res => {
+                if (res === true) {
+                    navigate("/")
+                }
+            })
+            .catch(error => {
+                console.log(error.message)
+                navigate("/error")
+            });
+    }
 
     return (
         <React.Fragment>
@@ -33,7 +50,7 @@ const CourseDetail = (props) => {
                              <div className="actions--bar">
                                 <div className="wrap">
                                     <Link className="button" to={`/courses/${id}/update`} onClick={() => props.context.actions.setUrlParams(`/courses/${id}/update`)}>Update Course</Link>
-                                    <Link className="button" to="#">Delete Course</Link>
+                                    <Link className="button" to="#" onClick={deleteCourse}>Delete Course</Link>
                                     <Link className="button button-secondary" to="/">Return to List</Link>
                                 </div>
                             </div>
@@ -82,7 +99,7 @@ const CourseDetail = (props) => {
                             </form>
                         </div>
                     </React.Fragment> 
-                ) : (<h4 className="course--not--found">Course Not Found</h4>)
+                ) : (<React.Fragment></React.Fragment>)
             }           
         </React.Fragment>
     )   

@@ -57,7 +57,7 @@ export default class Methods {
     if (response.status === 200) {
       return response.json().then(data => data);
     }
-    else if (response.status === 401) {
+    else if (response.status === 404) {
       return null;
     }
     else {
@@ -97,6 +97,21 @@ export default class Methods {
     const response = await this.api(`/courses/${id}`, 'PUT', course, true, {username, password});
     if (response.status === 204) {
       return true;
+    }
+    else if (response.status === 400) {
+      return response.json().then(data => {
+        return data.validationErrors;
+      });
+    }
+    else {
+      throw new Error();
+    }
+  }
+
+  async deleteCourse(id, username, password) {
+    const response = await this.api(`/courses/${id}`, 'DELETE', null, true, {username, password});
+    if (response.status === 204) {
+      return true
     }
     else if (response.status === 400) {
       return response.json().then(data => {

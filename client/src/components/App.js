@@ -16,6 +16,9 @@ import UserSignIn from './UserSignIn';
 import UserSignUp from './UserSignUp';
 import UserSignOut from './UserSignOut';
 import PrivateRoute from '../PrivateRoute';
+import NotFound from './NotFound';
+import Forbidden from './Forbidden';
+import UnhandledError from './UnhandledError';
 
 import withContext from '../Context';
 
@@ -45,6 +48,10 @@ function App() {
         <Route path="/signin" element={<UserSignInWithContext />} />
         <Route path="/signup" element={<UserSignUpWithContext />} />
         <Route path="/signout" element={<UserSignOutWithContext />} />
+        <Route path="/notfound" element={<NotFound />} />
+        <Route path="/forbidden" element={<Forbidden />} />
+        <Route path="/error" element={<UnhandledError />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       </div>
     </BrowserRouter>

@@ -3,15 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const UserSignUp = (props) => {
 
-    const navigate = useNavigate();
-
     const [firstName, setFirstName] = useState();
     const [lastName, setLastName] = useState();
     const [emailAddress, setEmailAddress] = useState();
     const [password, setPassword] = useState();
     const [errors, setErrors] = useState([]);
-    
 
+    const navigate = useNavigate();
+    
     const submit = (e) => {
         e.preventDefault();
         const user = {
@@ -28,7 +27,10 @@ const UserSignUp = (props) => {
                     setErrors(res);
                 }
             })
-            .catch(err => console.log(err));
+            .catch(error => {
+                console.log(error.message)
+                navigate("/error")
+            })
     }
    
     return (
