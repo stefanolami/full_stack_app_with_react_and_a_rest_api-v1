@@ -210,6 +210,16 @@ input:focus, button:focus, .button:focus, textarea:focus {
     font-weight: 700;
     color: #47395e;
 }
+.errors--p {
+    font-size: 1.3rem;
+    margin-bottom: .5rem;
+    margin-left: 3rem;
+    font-weight: 400;
+    color: #47395e;
+}
+.signing--message {
+    margin-top: 1rem;
+}
 
 @media screen and (min-width: 600px) {
     .header--signedin li {

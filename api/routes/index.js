@@ -25,6 +25,17 @@ router.post('/users', asyncHandler(async (req, res) => {
     res.status(201).location('/').end();
 }))
 
+// DELETE USERS ID 204 delete specific user
+router.delete('/users/:id',  asyncHandler(async (req, res) => {
+  const user = await User.findByPk(req.params.id);
+  if (user) {
+    await user.destroy();
+    res.status(204).end();
+  } else {
+    res.status(404).end();
+  }
+}))
+
 // GET COURSES 200 return all courses including associated users
 router.get('/courses', asyncHandler(async (req, res) => {
     const courses = await Course.findAll({

@@ -15,6 +15,7 @@ const UpdateCourse = (props) => {
     
     const {authenticatedUser} = props.context;
 
+    // Calls getCourse(), checks authorization and assigns useState variables on render
     useEffect(() => {
         props.context.actions.getCourse(id)
             .then(response => {
@@ -39,6 +40,7 @@ const UpdateCourse = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    // Prevents forms default behavior, assigns useState variables to course, calls updateCourse()
     const submit = (e) => {
         e.preventDefault();
         const course = {
@@ -48,7 +50,6 @@ const UpdateCourse = (props) => {
             materialsNeeded,
             userId: authenticatedUser.id
         }
-        console.log(authenticatedUser.emailAddress)
         props.context.actions.updateCourse(id, course, authenticatedUser.emailAddress, authenticatedUser.password)
             .then(res => {
                 if (res === true) {

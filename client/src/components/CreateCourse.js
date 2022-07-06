@@ -13,6 +13,7 @@ const CreateCourse = (props) => {
 
     const {authenticatedUser} = props.context;
 
+    // Prevents forms default behavior, assigns useState variables to course, calls createCourse()
     const submit = (e) => {
         e.preventDefault();
         const course = {

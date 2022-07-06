@@ -15,7 +15,7 @@ import UpdateCourse from './UpdateCourse';
 import UserSignIn from './UserSignIn';
 import UserSignUp from './UserSignUp';
 import UserSignOut from './UserSignOut';
-import PrivateRoute from '../PrivateRoute';
+import PrivateRoute from './PrivateRoute';
 import NotFound from './NotFound';
 import Forbidden from './Forbidden';
 import UnhandledError from './UnhandledError';

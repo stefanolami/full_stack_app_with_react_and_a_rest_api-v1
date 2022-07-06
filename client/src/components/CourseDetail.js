@@ -10,12 +10,12 @@ const CourseDetail = (props) => {
 
     const navigate = useNavigate()
 
+    // Calls getCourse() on render
     useEffect(() => {
         props.context.actions.getCourse(id)
             .then( response => {
                 if(response !== null) {
                     setCourse(response);
-                    console.log(response)
                 } else {
                    navigate("/notfound") 
                 }
@@ -26,8 +26,8 @@ const CourseDetail = (props) => {
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    console.log(course)
 
+    // Calls deleteCourse() and navigates to home if the Course is deleted
     const deleteCourse = () => {
         props.context.actions.deleteCourse(id, authenticatedUser.emailAddress, authenticatedUser.password)
             .then(res => {

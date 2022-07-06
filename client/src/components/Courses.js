@@ -7,6 +7,7 @@ const Courses = (props) => {
 
     const navigate = useNavigate();
 
+    // Calls getCourses() on render
     useEffect(() => {
         props.context.actions.getCourses()
             .then(response => setCourses(response))

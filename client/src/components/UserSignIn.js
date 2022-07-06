@@ -8,6 +8,7 @@ const UserSignIn = (props) => {
 
     const navigate = useNavigate()
 
+    // Prevents forms default behavior, calls signIn() and assigns urlParams back to a default "-1"
     const submit = (e) => {
         e.preventDefault();
         props.context.actions.signIn(emailAddress, password)
@@ -38,6 +39,7 @@ const UserSignIn = (props) => {
                     <input id="password" name="password" type="password" onChange={(e) => setPassword(e.target.value)}/>
                     <button className="button" type="submit">Sign In</button>
                     <Link to="/"><button className="button button-secondary">Cancel</button></Link>
+                    <p className="signing--message">Don't have a user account? Click here to <Link to="/signup">sign up</Link>!</p>
                 </form>
             </div>
         </React.Fragment>

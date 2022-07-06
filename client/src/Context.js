@@ -13,16 +13,16 @@ export class Provider extends Component {
         this.state= {
             authenticatedUser: this.cookie ? JSON.parse(this.cookie) : null,
             urlParams: -1,
-            validationErrors: [],
-            newUser: {
-                firstName: '',
-                lastName: '',
-                emailAddress: '',
-                password: ''
-            }
+            validationErrors: []
         }
     }
 
+    /**
+     * Checks if the given user exists and signs it in.
+     * @param {string} username - User email.
+     * @param {string} password - User password.
+     * @returns {object} User.
+     */
     signIn = async (username, password) => {
         const user = await this.apiMethods.getUser(username, password);
         if (user !== null) {
@@ -39,6 +39,11 @@ export class Provider extends Component {
         return user;
     }
 
+    /**
+     * Takes a new user and adds it to the database.
+     * @param {object} user - New User.
+     * @returns {object} User.
+     */
     signUp = async (user) => {
         const newUser = await this.apiMethods.createUser(user);
         if (newUser === true) {
@@ -47,6 +52,9 @@ export class Provider extends Component {
         return newUser
     }
 
+    /**
+     * Resets the authenticatedUser to null and removes the Cookie.
+     */
     signOut = () => {
         this.setState(() => {
             return {
@@ -56,44 +64,61 @@ export class Provider extends Component {
         Cookies.remove('authenticatedUser');
     }
 
+    /**
+     * Gets a specific course.
+     * @param {integer} id - Course id.
+     * @returns {object} Course.
+     */
     getCourse = async (id) => {
         const course = await this.apiMethods.getCourse(id);
-        if (course == null) {
-            console.log('Course not found')
-        }
         return course;
     }
 
+    /**
+     * Gets all courses.
+     * @returns {object} Courses.
+     */
     getCourses = async () => {
         const courses = await this.apiMethods.getCourses();
-        if (courses.length === 0) {
-            console.log('Course not found')
-        }
         return courses;
     }
 
+    /**
+     * Creates a new course.
+     * @param {object} course - New course.
+     * @returns {function} createCourse method's result.
+     */
     createCourse = async (course) => {
         return await this.apiMethods.createCourse(course);
     }
 
+    /**
+     * Creates a new course.
+     * @param {integer} id - Course id.
+     * @param {object} course - New course.
+     * @param {string} username - authenticatedUser email.
+     * @param {string} password - authenticatedUser password.
+     * @returns {function} updateCourse method's result.
+     */
     updateCourse = async (id, course, username, password) => {
         return await this.apiMethods.updateCourse(id, course, username, password);
     }
 
+    /**
+     * Creates a new course.
+     * @param {integer} id - Course id.
+     * @param {string} username - authenticatedUser email.
+     * @param {string} password - authenticatedUser password.
+     * @returns {function} deleteCourse method's result.
+     */
     deleteCourse = async (id, username, password) => {
         return await this.apiMethods.deleteCourse(id, username, password);
     }
 
-    newUserChange = (name, value) => {
-        this.setState(() => {
-            return {
-                newUser: {
-                    [name]: value
-                }
-            }
-        })
-    }
-
+    /**
+     * Changes urlParams.
+     * @param {string} params - New params.
+     */
     setUrlParams = (params) => {
         this.setState(() => {
             return {

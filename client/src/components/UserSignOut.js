@@ -5,6 +5,7 @@ const UserSignOut = (props) => {
 
     const navigate = useNavigate()
 
+    // Calls signOut() on render, navigates to home 
     useEffect(() => {
         props.context.actions.signOut();
         navigate('/');

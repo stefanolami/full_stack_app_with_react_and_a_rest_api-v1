@@ -11,6 +11,7 @@ const UserSignUp = (props) => {
 
     const navigate = useNavigate();
     
+    // Prevents forms default behavior, assigns useState variables to user, calls signUp()
     const submit = (e) => {
         e.preventDefault();
         const user = {
@@ -66,6 +67,7 @@ const UserSignUp = (props) => {
                     <input id="password" name="password" type="password" onChange={(e) => setPassword(e.target.value)}/>
                     <button className="button" type="submit">Sign Up</button>
                     <Link to="/"><button className="button button-secondary">Cancel</button></Link>
+                    <p className="signing--message">Already have a user account? Click here to <Link to="/signin" onClick={() => props.context.actions.setUrlParams("/")}>sign in</Link>!</p>
                 </form>
             </div>
         </React.Fragment>
