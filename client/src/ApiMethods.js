@@ -1,4 +1,7 @@
+import { Buffer } from 'buffer';
+
 export default class Methods {
+
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
     const url = 'http://localhost:5000/api' + path;
   
@@ -14,7 +17,7 @@ export default class Methods {
     }
 
     if (requiresAuth) {
-      const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
+      const encodedCredentials = Buffer.from(`${credentials.username}:${credentials.password}`).toString('base64'); 
       options.headers['Authorization'] = `Basic ${encodedCredentials}`;
     }
 
@@ -90,9 +93,9 @@ export default class Methods {
     }
   }
 
-  async updateCourse(id, course) {
-    const response = await this.api(`/courses/${id}`, 'PUT', course);
-    if (response.status === 201) {
+  async updateCourse(id, course, username, password) {
+    const response = await this.api(`/courses/${id}`, 'PUT', course, true, {username, password});
+    if (response.status === 204) {
       return true;
     }
     else if (response.status === 400) {

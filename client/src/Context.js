@@ -10,7 +10,7 @@ export class Provider extends Component {
         this.apiMethods = new Methods();
         this.state= {
             authenticatedUser: null,
-            urlParams: null,
+            urlParams: "/",
             validationErrors: [],
             newUser: {
                 firstName: '',
@@ -71,8 +71,8 @@ export class Provider extends Component {
         return await this.apiMethods.createCourse(course);
     }
 
-    updateCourse = async (id, course) => {
-        return await this.apiMethods.updateCourse(id, course);
+    updateCourse = async (id, course, username, password) => {
+        return await this.apiMethods.updateCourse(id, course, username, password);
     }
 
     newUserChange = (name, value) => {
